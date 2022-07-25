@@ -3,8 +3,8 @@ const log = (...args) => require("process").stdout.write(args.join("") + "[0m\n
 const config = require("./config.json");
 
 const bot = mineflayer.createBot({
-    host: "mc.hypixel.net",
-    port: "25565",
+    host: config.server.ip,
+    port: config.server.port,
     username: config.minecraft.username,
     password: config.minecraft.password,
     version: "1.8.9",
@@ -30,8 +30,10 @@ let processQueue = () => {
     setTimeout(() => {
         bot.chat('/party leave');
         log(`[31mLeft ${partyQueue.shift()}'s party. There are ${partyQueue.length} more users waiting.`);
-        currentlyInParty = false;
-        if (partyQueue.length > 0) processQueue();
+        setTimeout(() => {
+            currentlyInParty = false;
+            if (partyQueue.length > 0) processQueue();
+        }, 1000);
     }, config.fragbot.waitTime * 1000);
 }
 
