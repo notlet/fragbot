@@ -13,7 +13,9 @@ const bot = mineflayer.createBot({
 
 let inLimbo = false;
 
-bot.on("login", () => {
+bot.once("login", () => console.log("Bot joined the server."))
+
+bot.on("spawn", () => {
     if (!inLimbo) {
         log("Bot joined a lobby.");
         setTimeout(() => limbo(), 2000);
@@ -42,7 +44,7 @@ bot.on("message", event => {
     if (message.endsWith(' the lobby!') || message.endsWith(' the lobby! <<<')) limbo();
     if (message.includes("You were spawned in Limbo.")) log("[32mSuccessfully spawned in Limbo.");
     if (message.includes("has invited you to join their party!")) {
-        let user = message.match(/^(?:\[.+\]|)\s*(.+) has invited you to join their party!/m)[1];
+        let user = message.match(/^(?:\[[\w+]+\]|)\s*([0-9A-Za-z_]) has invited you to join their party!/m)[1];
         partyQueue.push(user);
         log(`${user} partied, adding to queue...`);
         processQueue();
