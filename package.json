@@ -1,15 +1,17 @@
 {
-  "dependencies": {
-    "mineflayer": "^4.3.0"
-  },
   "name": "fragbot",
-  "version": "0.1.1.1",
-  "description": "a fragbot for Hypixel Skyblock",
-  "main": "main.js",
-  "devDependencies": {},
+  "version": "0.1.2",
+  "description": "A fragbot for Hypixel Skyblock.",
+  "main": "fragbot.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node fragbot.js",
+    "whitelist": "node addToWhitelist.js"
   },
   "author": "letgame",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "mineflayer": "^4.3.0",
+    "yesno": "^0.4.0"
+  }
 }

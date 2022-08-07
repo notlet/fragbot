@@ -1,6 +1,7 @@
 const mineflayer = require("mineflayer");
 const log = (...args) => require("process").stdout.write(args.join("") + "[0m\n");
 const config = require("./config.json");
+const whitelist = require("fs").existsSync(__dirname + "/whitelist.json") ? require("./whitelist.json") : { "enabled": false };
 
 const bot = mineflayer.createBot({
     host: config.server.ip,
@@ -44,7 +45,8 @@ bot.on("message", event => {
     if (message.endsWith(' the lobby!') || message.endsWith(' the lobby! <<<')) limbo();
     if (message.includes("You were spawned in Limbo.")) log("[32mSuccessfully spawned in Limbo.");
     if (message.includes("has invited you to join their party!")) {
-        let user = message.match(/^(?:\[[\w+]+\]|)\s*([0-9A-Za-z_]) has invited you to join their party!/m)[1];
+        let user = message.match(/^(?:\[.+\]|)\s*(.+) has invited you to join their party!/m)[1];
+        if (whitelist.enabled) if (whitelist.users.indexOf(user) < 0) return;
         partyQueue.push(user);
         log(`${user} partied, adding to queue...`);
         processQueue();
