@@ -18,3 +18,16 @@ This is a simple program to host and automate a fragrun bot for Hypixel Skyblock
 - The bot will join Hypixel and automatically get into Limbo.
 - When it recieves a party invite, it accepts it and then leaves after 5 seconds (configurable in `config.json`, `fragbot.waitTime` field).
 - To add a user to whitelist, run `npm run whitelist [username]` or `node addToWhitelist.js [username]`.
+
+## Configuration
+- `server`:
+    - `ip` - ip of the server to connect to.
+    - `port` - port of the server to connect to (most often `25565`).
+- `minecraft`:
+    - `username` - email of your Mojang/Microsoft account.
+    - `password` - password of your Mojang/Microsoft account.
+    - `accountType` - `mojang` or `microsoft`, type of your account.
+- `fragbot`:
+    - `logAllMessages` - if set to `true`, logs all messages the fragbot recieves into console.
+    - `leaveOnDungeonEntry` - if set to `true`, the bot will leave party when the leader enters a dungeon, skipping the usual set wait.
+    - `waitTime` - how many seconds will the bot wait in party before leaving.

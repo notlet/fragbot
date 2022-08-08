@@ -12,32 +12,32 @@ const bot = mineflayer.createBot({
     auth: config.minecraft.accountType,
 })
 
-let inLimbo = false;
+const limbo = () => {
+    log('[33mSending bot to Limbo...');
+    Array.from(Array(12)).forEach(() => bot.chat("/"));
+}
 
 bot.once("login", () => console.log("Bot joined the server."))
-
-bot.on("spawn", () => {
-    if (!inLimbo) {
-        log("Bot joined a lobby.");
-        setTimeout(() => limbo(), 2000);
-    }
-})
+bot.once("spawn", () => setTimeout(limbo, 2000));
 
 let partyQueue = [];
 let currentlyInParty = false;
-let processQueue = () => {
+let leaveTimeout;
+
+const processQueue = () => {
     if (currentlyInParty) return;
     currentlyInParty = true;
     bot.chat(`/party join ${partyQueue[0]}`);
     log(`[32mJoined ${partyQueue[0]}'s party, waiting 5 seconds...`)
+    leaveTimeout = setTimeout(leaveParty, config.fragbot.waitTime * 1000);
+}
+const leaveParty = () => {
+    bot.chat('/party leave');
+    log(`[31mLeft ${partyQueue.shift()}'s party. There are ${partyQueue.length} more users waiting.`);
     setTimeout(() => {
-        bot.chat('/party leave');
-        log(`[31mLeft ${partyQueue.shift()}'s party. There are ${partyQueue.length} more users waiting.`);
-        setTimeout(() => {
-            currentlyInParty = false;
-            if (partyQueue.length > 0) processQueue();
-        }, 1000);
-    }, config.fragbot.waitTime * 1000);
+        currentlyInParty = false;
+        if (partyQueue.length > 0) processQueue();
+    }, 1000);
 }
 
 bot.on("message", event => {
@@ -51,11 +51,9 @@ bot.on("message", event => {
         log(`${user} partied, adding to queue...`);
         processQueue();
     }
+    if (message.includes("warped the party to a SkyBlock dungeon!") && config.fragbot.leaveOnDungeonEntry) {
+        clearTimeout(leaveTimeout);
+        setTimeout(leaveParty, 1000);
+    }
     if (config.fragbot.logAllMessages) log(message);
-})
-
-const limbo = () => {
-    log('[33mSending bot to Limbo...');
-    Array.from(Array(12)).forEach(() => bot.chat("/"));
-    inLimbo = true;
-}
+});
