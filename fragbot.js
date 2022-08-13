@@ -32,6 +32,7 @@ const processQueue = () => {
     leaveTimeout = setTimeout(leaveParty, config.fragbot.waitTime * 1000);
 }
 const leaveParty = () => {
+    if (partyQueue.length <= 0) return;
     bot.chat('/party leave');
     log(`[31mLeft ${partyQueue.shift()}'s party. There are ${partyQueue.length} more users waiting.`);
     setTimeout(() => {
