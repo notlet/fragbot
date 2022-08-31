@@ -18,7 +18,7 @@ const limbo = () => {
 }
 
 bot.once("login", () => console.log("Bot joined the server."))
-bot.once("spawn", () => setTimeout(limbo, 2000));
+bot.once("spawn", () => setTimeout(() => {bot.chat("/party leave"); limbo()}, 2000));
 
 let partyQueue = [];
 let currentlyInParty = false;
@@ -29,7 +29,7 @@ const processQueue = () => {
     currentlyInParty = true;
     bot.chat(`/party join ${partyQueue[0]}`);
     log(`[32mJoined ${partyQueue[0]}'s party, waiting 5 seconds...`)
-    leaveTimeout = setTimeout(leaveParty, config.fragbot.waitTime * 1000);
+    if (config.fragbot.waitTime > 0) leaveTimeout = setTimeout(leaveParty, config.fragbot.waitTime * 1000);
 }
 const leaveParty = () => {
     if (partyQueue.length <= 0) return;
