@@ -18,7 +18,7 @@ const limbo = () => {
 }
 
 bot.once("login", () => console.log("Bot joined the server."))
-bot.once("spawn", () => setTimeout(() => {bot.chat("/party leave"); limbo()}, 2000));
+bot.once("spawn", () => {bot.chat("/party leave"); setTimeout(() => limbo, 2000)});
 
 let partyQueue = [];
 let currentlyInParty = false;
@@ -28,7 +28,7 @@ const processQueue = () => {
     if (currentlyInParty) return;
     currentlyInParty = true;
     bot.chat(`/party join ${partyQueue[0]}`);
-    log(`[32mJoined ${partyQueue[0]}'s party, waiting 5 seconds...`)
+    log(`[32mJoined ${partyQueue[0]}'s party${config.fragbot.waitTime > 0 ? `, waiting ${config.fragbot.waitTime} seconds...` : "."}`)
     if (config.fragbot.waitTime > 0) leaveTimeout = setTimeout(leaveParty, config.fragbot.waitTime * 1000);
 }
 const leaveParty = () => {
@@ -52,7 +52,7 @@ bot.on("message", event => {
         log(`${user} partied, adding to queue...`);
         processQueue();
     }
-    if (message.includes("warped the party to a SkyBlock dungeon!") && config.fragbot.leaveOnDungeonEntry) {
+    if (message.includes("warped the party to a SkyBlock dungeon!") && config.fragbot.leaveOnDungeonEntry || message.includes("The party was disbanded")) {
         clearTimeout(leaveTimeout);
         setTimeout(leaveParty, 1000);
     }
