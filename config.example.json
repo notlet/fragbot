@@ -10,6 +10,7 @@
     },
     "fragbot": {
         "logAllMessages": false,
+        "logTime": true,
         "leaveOnDungeonEntry": true,
         "waitTime": 5
     }

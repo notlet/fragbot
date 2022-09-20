@@ -1,5 +1,5 @@
 const mineflayer = require("mineflayer");
-const log = (...args) => require("process").stdout.write(args.join("") + "[0m\n");
+const log = (...args) => require("process").stdout.write((config.fragbot.logTime ? `<${new Date(Date.now()).toLocaleTimeString()}> ` : "") + args.join("") + "[0m\n");
 const config = require("./config.json");
 const whitelist = require("fs").existsSync(__dirname + "/whitelist.json") ? require("./whitelist.json") : { "enabled": false };
 

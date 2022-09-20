@@ -1,6 +1,6 @@
 {
   "name": "fragbot",
-  "version": "0.1.2.4",
+  "version": "0.1.2.5",
   "description": "A fragbot for Hypixel Skyblock.",
   "main": "fragbot.js",
   "scripts": {
