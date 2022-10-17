@@ -32,3 +32,4 @@ This is a simple program to host and automate a fragrun bot for Hypixel Skyblock
     - `logTime` - if set to `true`, logs the time of all fragbot events into console.
     - `leaveOnDungeonEntry` - if set to `true`, the bot will leave party when the leader enters a dungeon, skipping the usual set wait.
     - `waitTime` - how many seconds will the bot wait in party before leaving (set to 0 to not leave).
+    - `responsesEnabled` - if set to `true`, the bot will notify users about queue length and send a welcome message on party join.

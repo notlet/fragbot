@@ -12,6 +12,7 @@
         "logAllMessages": false,
         "logTime": true,
         "leaveOnDungeonEntry": true,
-        "waitTime": 5
+        "waitTime": 5,
+        "responsesEnabled": true
     }
 }
