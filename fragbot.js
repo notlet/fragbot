@@ -3,18 +3,27 @@ const log = (...args) => require("process").stdout.write((config.fragbot.logTime
 const config = require("./config.json");
 const whitelist = require("fs").existsSync(__dirname + "/whitelist.json") ? require("./whitelist.json") : { "enabled": false };
 
+const randomString = (length = 10) => {
+    let characters = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
+    let result = "";
+    Array.from(Array(length)).forEach(() => { result = result + characters[Math.floor(Math.random() * characters.length)]; });
+    return result
+}
+
 const bot = mineflayer.createBot({
     host: config.server.ip,
     port: config.server.port,
-    username: config.minecraft.username,
-    password: config.minecraft.password,
+    username: config.account.username,
+    password: config.account.password,
     version: "1.8.9",
-    auth: config.minecraft.accountType,
+    auth: config.account.accountType,
 })
 
 const limbo = () => {
-    log('[33mSending bot to Limbo...');
-    Array.from(Array(12)).forEach(() => bot.chat("/"));
+    if (!require("process").argv.includes("--nolimbo")) {
+        log('[33mSending bot to Limbo...');
+        Array.from(Array(12)).forEach(() => bot.chat("/"));
+    }
 }
 
 bot.once("login", () => log("Bot joined the server."))
@@ -51,7 +60,7 @@ bot.on("message", event => {
         if (whitelist.enabled) if (whitelist.users.indexOf(user) < 0) return;
         partyQueue.push(user);
         log(`${user} partied, adding to queue...`);
-        if (partyQueue.length > 1 && config.fragbot.responsesEnabled) bot.chat(`/msg ${user} [FRAGBOT] ${config.fragbot.waitTime > 0 ? `Wait time: about ${(partyQueue.length - 1) * config.fragbot.waitTime} seconds.` : `Queue length: ${partyQueue.length - 1}.`} | ${Math.floor(Math.random()*1e8)}${Math.floor(Math.random()*1e8)}`)
+        if (partyQueue.length > 1 && config.fragbot.responsesEnabled) bot.chat(`/msg ${user} [FRAGBOT] ${config.fragbot.waitTime > 0 ? `Wait time: ${(partyQueue.length - 1) * config.fragbot.waitTime} or less seconds.` : `Queue length: ${partyQueue.length - 1}.`} | ${randomString(20)}`)
         processQueue();
     }
     if (message.includes("warped the party to a SkyBlock dungeon!") && config.fragbot.leaveOnDungeonEntry) {

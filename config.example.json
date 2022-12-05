@@ -3,7 +3,7 @@
         "ip": "mc.hypixel.net",
         "port": "25565"
     },
-    "minecraft": {
+    "account": {
         "username": "email of your minecraft account",
         "password": "password of your minecraft account",
         "accountType": "type of your minecraft account (microsoft/mojang)"

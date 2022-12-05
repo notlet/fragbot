@@ -23,7 +23,7 @@ This is a simple program to host and automate a fragrun bot for Hypixel Skyblock
 - `server`:
     - `ip` - ip of the server to connect to.
     - `port` - port of the server to connect to (most often `25565`).
-- `minecraft`:
+- `account`:
     - `username` - email of your Mojang/Microsoft account.
     - `password` - password of your Mojang/Microsoft account.
     - `accountType` - `mojang` or `microsoft`, type of your account.
