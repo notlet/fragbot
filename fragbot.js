@@ -71,5 +71,10 @@ bot.on("message", event => {
         clearTimeout(leaveTimeout);
         setTimeout(() => leaveParty("Disbanded"), 1000);
     }
+    if (message.includes("You have been kicked from the party by")) {
+        clearTimeout(leaveTimeout);
+        setTimeout(() => leaveParty("Kicked"), 1000);
+    }
+    
     if (config.fragbot.logAllMessages) log(message);
 });
